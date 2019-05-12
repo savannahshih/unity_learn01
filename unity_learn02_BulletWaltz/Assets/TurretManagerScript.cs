@@ -16,6 +16,8 @@ public class TurretManagerScript : MonoBehaviour {
 	public GameObject bulletCandidate;
 	private float bulletOffset = 0.6f;
 
+	public ScoreManager scoreManager;
+	public GameLoopManager gameLoopManager;
 
 	void Start () {
 		_animator = this.GetComponent<Animator> ();
@@ -25,6 +27,8 @@ public class TurretManagerScript : MonoBehaviour {
 		_animator.SetTrigger ("Shoot");
 		GameCamera.transform.DOShakePosition (CameraShakeDuration, CameraShakeStrenth);
 
+		scoreManager.AddScore (1);
+
 		GameObject bulletobj = GameObject.Instantiate (bulletCandidate);
 		BulletScript bulletScript = bulletobj.GetComponent<BulletScript> ();
 		bulletScript.transform.position = this.transform.position + bulletOffset * this.gameObject.transform.right;
@@ -33,11 +37,12 @@ public class TurretManagerScript : MonoBehaviour {
 		Vector2 shootDirection2D = new Vector2 (shootDirection3D.x, shootDirection3D.y);
 		bulletScript.InitAndShoot (shootDirection2D);
 
+		gameLoopManager.bullets.Add (bulletScript);
 	}
 
 	public void PlayRotateAnimation(){
 			float targetDegree = 360.0f / DirectionCount * Random.Range (0, DirectionCount);
-			this.transform.DORotate (new Vector3 (0, 0, targetDegree), rotateDuration);
+		this.transform.DORotate (new Vector3 (0, 0, targetDegree), rotateDuration).SetEase(RotateEaseFunction);
 	}
 	
 	// Update is called once per frame

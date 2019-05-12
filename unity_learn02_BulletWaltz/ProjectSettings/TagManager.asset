@@ -56,3 +56,9 @@ TagManager:
   - name: Turret
     uniqueID: 2013102885
     locked: 0
+  - name: BackgroundUILayer
+    uniqueID: 3495695041
+    locked: 0
+  - name: ForegroundUILayer
+    uniqueID: 259815485
+    locked: 0
